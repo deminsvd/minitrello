@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve",
+    "build": "webpack --mode production",
     "lint": "eslint . --fix"
   },
   "repository": "https://github.com/deminsvd/minitrello.git",
