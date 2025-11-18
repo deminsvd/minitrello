@@ -1,0 +1,51 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.column {
+  background: #fff;
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.cards-container {
+  min-height: 50px;
+}
+
+.card {
+  background: #f0f0f0;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  position: relative;
+  cursor: grab;
+}
+
+.card.dragging {
+  opacity: 0.7;
+  cursor: grabbing;
+}
+
+.delete-card {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  cursor: pointer;
+}
+
+.add-card-link {
+  margin-top: 10px;
+  color: blue;
+  cursor: pointer;
+}
+
+.placeholder {
+  transition: background 0.2s ease;
+}
+.card {
+  cursor: grab;
+}
+.card:active {
+  cursor: grabbing;
+}
