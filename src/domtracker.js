@@ -13,6 +13,8 @@ export const saveState = () => {
 
 export const getState = () => state;
 
+let activeAddCardColIndex = null; // флаг активной колонки для ввода, для сброса при нажатии в другой колонке
+
 export const renderBoard = () => {
   const container = document.getElementById('board-container');
   container.innerHTML = '';
@@ -20,7 +22,7 @@ export const renderBoard = () => {
   container.style.background = 'lightblue';
   container.style.padding = '20px';
   container.style.gap = '20px';
-  
+
   state.columns.forEach((col, colIndex) => {
     const column = document.createElement('div');
     column.classList.add('column');
@@ -52,11 +54,7 @@ export const renderBoard = () => {
     });
 
     // Add another card
-    const addCardLink = document.createElement('div');
-    addCardLink.classList.add('add-card-link');
-    addCardLink.textContent = 'Add another card';
-
-    addCardLink.addEventListener('click', () => {
+    if (activeAddCardColIndex === colIndex) {
       const input = document.createElement('input');
       input.type = 'text';
       input.placeholder = 'Enter card text';
@@ -65,27 +63,48 @@ export const renderBoard = () => {
       addBtn.textContent = 'Add card';
       addBtn.style.background = 'green';
       addBtn.style.color = 'white';
-      
+
       const cancelBtn = document.createElement('button');
       cancelBtn.textContent = '✖';
-
-      addCardLink.replaceWith(input, addBtn, cancelBtn);
 
       addBtn.onclick = () => {
         if (input.value.trim()) {
           col.cards.push(input.value.trim());
+          activeAddCardColIndex = null; // сброс активной колонки после добавления
           saveState();
           renderBoard();
         }
       };
 
       cancelBtn.onclick = () => {
+        activeAddCardColIndex = null; // сброс активной колонки при отмене
         renderBoard();
       };
-    });
 
-    column.appendChild(cardsContainer);
-    column.appendChild(addCardLink);
+      column.appendChild(cardsContainer);
+      column.appendChild(input);
+      column.appendChild(addBtn);
+      column.appendChild(cancelBtn);
+    } else {
+      const addCardLink = document.createElement('div');
+      addCardLink.classList.add('add-card-link');
+      addCardLink.textContent = 'Add another card';
+
+      addCardLink.addEventListener('click', () => {
+        // если уже идёт добавление в другой колонке - обнулим ввод в другой колонке
+        if (activeAddCardColIndex !== null) {
+          activeAddCardColIndex = null;
+          renderBoard();
+        }
+   
+        activeAddCardColIndex = colIndex; // назначение активной колонки при нажатии кнопки
+        renderBoard();
+      });
+
+      column.appendChild(cardsContainer);
+      column.appendChild(addCardLink);
+    }
+
     container.appendChild(column);
   });
 };
