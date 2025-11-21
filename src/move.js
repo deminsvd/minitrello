@@ -7,6 +7,11 @@ let placeholder = null; // место вставки
 let ghostCard = null; // карточка-«призрак»
 
 document.addEventListener('mousedown', (e) => {
+    // Если клик по кнопке удаления — просто выходим
+  if (e.target.classList.contains('delete-card')) {
+    return; // не запускаем DnD
+  }
+
   const card = e.target.closest('.card'); //захват карточки
   if (!card) return;
 

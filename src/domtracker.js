@@ -1,4 +1,3 @@
-// Загружаем или создаём состояние
 let state = JSON.parse(localStorage.getItem('taskState')) || {
   columns: [
     { title: 'Backlog', cards: [] },
@@ -13,7 +12,7 @@ export const saveState = () => {
 
 export const getState = () => state;
 
-let activeAddCardColIndex = null; // флаг активной колонки для ввода, для сброса при нажатии в другой колонке
+let activeAddCardColIndex = null; // флаг активной колонки для ввода
 
 export const renderBoard = () => {
   const container = document.getElementById('board-container');
@@ -22,7 +21,7 @@ export const renderBoard = () => {
   container.style.background = 'lightblue';
   container.style.padding = '20px';
   container.style.gap = '20px';
-
+  
   state.columns.forEach((col, colIndex) => {
     const column = document.createElement('div');
     column.classList.add('column');
@@ -70,14 +69,14 @@ export const renderBoard = () => {
       addBtn.onclick = () => {
         if (input.value.trim()) {
           col.cards.push(input.value.trim());
-          activeAddCardColIndex = null; // сброс активной колонки после добавления
+          activeAddCardColIndex = null; // обнуление активной колонки при добавлении
           saveState();
           renderBoard();
         }
       };
 
       cancelBtn.onclick = () => {
-        activeAddCardColIndex = null; // сброс активной колонки при отмене
+        activeAddCardColIndex = null; // обнуление активной колонки при тмене
         renderBoard();
       };
 
@@ -91,13 +90,13 @@ export const renderBoard = () => {
       addCardLink.textContent = 'Add another card';
 
       addCardLink.addEventListener('click', () => {
-        // если уже идёт добавление в другой колонке - обнулим ввод в другой колонке
+        // если уже идёт добавление в другой колонке — обнуляем там ввод
         if (activeAddCardColIndex !== null) {
           activeAddCardColIndex = null;
           renderBoard();
         }
-   
-        activeAddCardColIndex = colIndex; // назначение активной колонки при нажатии кнопки
+        
+        activeAddCardColIndex = colIndex; // добавляем активную колонку
         renderBoard();
       });
 

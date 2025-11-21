@@ -32,6 +32,11 @@ body {
   top: 4px;
   right: 6px;
   cursor: pointer;
+  display: none;
+}
+
+.card:hover .delete-card {
+  display: inline;
 }
 
 .add-card-link {
